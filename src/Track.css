@@ -1,0 +1,21 @@
+
+.track {
+    display: flex;
+    border-bottom: 1px solid rgb(245, 222, 245);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.track .content {
+    width: 90%;
+}
+.track .add-to-playlist {
+    width: 8%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.track img {
+    width: 16px;
+    height: 16px;
+}

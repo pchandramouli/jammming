@@ -1,7 +1,20 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 1000px;
+  color: white;
 }
 
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 2rem;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -13,15 +26,30 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.search-panel {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  width: 100%;
+}
+
+.results-panel {
+  /* background-color: rgb(71, 2, 71);*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
   color: white;
+  margin: 1rem;
+}
+
+.playlist-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: white;
+  margin: 1rem;
 }
 
 .App-link {

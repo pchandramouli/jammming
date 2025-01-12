@@ -1,0 +1,28 @@
+.tracklist {
+    background-color: #461873;
+    text-align: left;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    min-height: 40rem;
+    width: 20rem;
+    max-height: 20rem;
+    overflow-y: scroll;
+}
+
+.tracklist::-webkit-scrollbar {
+    background: transparent;
+}
+.tracklist ul {
+    margin: 2rem 0 0;
+    padding: 0;
+}
+.tracklist ul li {
+    list-style-type: none;
+    padding: 0;
+}
+
+.tracklist img {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
