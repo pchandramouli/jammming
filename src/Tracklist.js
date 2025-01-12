@@ -6,9 +6,10 @@ function Tracklist({tracks, onHandleAddTrack, onHandleResetTracklist}) {
     let listItems = [];
     
     listItems = tracks.map(track => {
+        console.log(track);
         return (
         <li key={track.id}>
-            <Track key={track.id} name={ track.name } artist={ track.artist } album={ track.album } uri={track.uri} onHandleAddTrack={onHandleAddTrack}>
+            <Track id={track.id} name={ track.name } artist={ track.artist } album={ track.album } uri={track.uri} onHandleAddTrack={onHandleAddTrack}>
             </Track>
         </li>
         );

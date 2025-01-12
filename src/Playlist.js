@@ -19,9 +19,9 @@ function Playlist({ playlistTracks, onHandleRemoveTrack, onHandleResetPlaylist }
 
     const savePlaylistToSpotify = async (playlistName) => {
         const accessToken = localStorage.getItem('accessToken');
-
+        const userId = '';
         //Create the playlist first...
-        const response = await fetch('https://api.spotify.com/v1/users/<user_id>/playlists', {
+        const response = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${accessToken}`

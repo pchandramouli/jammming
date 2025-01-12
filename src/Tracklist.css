@@ -7,6 +7,7 @@
     width: 20rem;
     max-height: 20rem;
     overflow-y: scroll;
+    box-shadow: black 2px 2px;
 }
 
 .tracklist::-webkit-scrollbar {

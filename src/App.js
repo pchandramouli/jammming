@@ -5,29 +5,6 @@ import SearchResults from './SearchResults'
 import Playlist from './Playlist';
 import { authorize } from './SpotifyUtil';
 
-const searchResultsList = [
-  {
-    name: "Symphony 9",
-    artist: "Beethoven",
-    album: "Beethoven Symphonies"
-  },
-  {
-    name: "Symphony Fantastique",
-    artist: "Berlioz",
-    album: "Romantic Symphonies"
-  },
-  {
-    name: "Hebrides Overture",
-    artist: "Mendelssohn",
-    album: "Romantic Classics"
-  },
-  {
-    name: "Elvira Madigan",
-    artist: "Mozart",
-    album: "Piano Concertos"
-  }
-];
-
 function App() {
   let [playlistTracks, setPlaylistTracks] = useState([]);
   let [searchResultsList, setSearchResultsList] = useState([]);
@@ -49,7 +26,7 @@ function App() {
   const fetchData = async () => {
     let response = await fetchSpotifyProfile();
     if (!response.ok) {
-      // If unauthorize, authorize again.
+      // If unauthorized, authorize again.
       const status = response.status;
       console.log(`Status is ${status}`);
       if (status === 401) {
@@ -75,7 +52,31 @@ function App() {
 
     return response;
   }
-  
+
+  const filterOutPlaylistSongs = async (songs) => {
+    if (!playlistTracks || playlistTracks.length === 0) {
+      return songs;
+    }
+
+    return songs.filter(song => {
+      if (!playlistTracks.some(plTrack => plTrack.id === song.id)) {
+        return song;
+      }
+    });
+  }
+
+  const selectWithReqColumns = async (songs) => {
+    return songs.map(track => {
+      return {
+        name: track.name,
+        album: track.album.name,
+        artist: track.artists[0].name,
+        id: track.id,
+        uri: track.uri
+      };
+    });
+  }
+
   const fetchSearchData = async (e) => {
     if (e === '') {
       return [];
@@ -88,35 +89,25 @@ function App() {
 
     const searchResponse = await searchSpotify(query);
     const searchResponseJson = await searchResponse.json();
+    const filteredSongs = await filterOutPlaylistSongs(await selectWithReqColumns(searchResponseJson.tracks.items));
 
-    let results = [];
-
-    results = searchResponseJson.tracks.items.map(track => {
-      const album = track.album.name;
-      const artist = track.artists[0].name;
-      const name = track.name;
-      const id = track.id;
-      const uri = track.uri;
-
-      return {
-        name: name,
-        album: album,
-        artist: artist,
-        id: id,
-        uri: uri
-      };
-    });
-
-    setSearchResultsList(results);
-  }
+    setSearchResultsList(filteredSongs);
+  };
 
   useEffect(() => {
-
     fetchData();
     fetchSearchData('');
   }, []);
 
-  const handleAddTrack = (e) => {
+  const updateTracklist = async () => {
+    // Also, remove it from the results track list
+    setSearchResultsList(await filterOutPlaylistSongs(searchResultsList));
+  }
+  useEffect(() => {
+    updateTracklist();
+  }, [playlistTracks]);
+
+  const handleAddTrack = async (e) => {
     e.preventDefault();
 
     setPlaylistTracks([...playlistTracks, {
@@ -126,6 +117,8 @@ function App() {
       album: e.currentTarget.getAttribute('data-track-album'),
       uri: e.currentTarget.getAttribute('data-track-uri')
     }]);
+
+
   };
 
   const handleRemoveTrack = (e) => {
